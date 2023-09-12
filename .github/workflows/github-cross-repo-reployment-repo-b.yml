@@ -6,7 +6,7 @@ name: CI
 on:
   # Triggers the workflow on completion status of github-cross-repo-reployment-repo-a repo
   workflow_run:
-    workflows: ["SQL Deployment"]
+    workflows: ["github-cross-repo-reployment-repo-b"]
     types:
       - completed
 
