@@ -1,53 +1,24 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-# Controls when the workflow will run
+name: Deploy
 on:
-  # Triggers the workflow on completion status of github-cross-repo-reployment-repo-a repo
-  workflow_run:
-    workflows: ["CI-github-cross-repo-reployment-repo-a"]
-    types:
-      - repo-a-deployment-tagged
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+  push:
+    branches:
+      - master
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
+    name: Run Web App
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
-       # Add your deployment steps here for RepoB, using the TAG from RepoA.
-      - name: Deploy RepoB
-        # Add your deployment steps here for RepoB, using the TAG from RepoA.
+      - name: Build Web App
         run: |
-          # Your deployment commands here
-          # Example: npm install && npm build && npm deploy --tag $TAG
-        env:
-          TAG: ${{ github.event.client_payload.tag }}
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      - name: Set Up Node.js
-        uses: actions/setup-node@v2
+          echo "Build Web App"
+          sleep 10s
+      - uses: convictional/trigger-workflow-and-wait@v1.3.0
         with:
-          node-version: '14'  # Adjust to your Angular version
-
-      - name: Install Dependencies and Build
+          owner: durrello
+          repo: demo-web-api
+          github_token: ${{ secrets.REPO_A_TOKEN }}
+          workflow_file_name: deploy.yml
+      - name: Deploy Web App
         run: |
-          npm install
-          npm run build  # Adjust the build command as per your Angular app
-
-      - name: Deploy to Hosting
-        run: |
-          # Add your deployment commands here
-          run: echo Completed!!!
-          env:
-          TAG: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.outputs.TAG }}
+          echo "Deploy Web App"
+          sleep 10s
