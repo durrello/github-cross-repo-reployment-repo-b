@@ -16,7 +16,7 @@ jobs:
         with:
           owner: durrello
           repo: demo-web-api
-          github_token: ${{ secrets.REPO_A_TOKEN }}
+          github_token: ${{ secrets.INPUT_GITHUB_TOKEN }}
           workflow_file_name: deploy.yml
       - name: Deploy Web App
         run: |
