@@ -20,9 +20,15 @@ jobs:
 
     - name: Calculate release tag
       id: calculate_tag
-      run: echo "prod$(date +'%Y%m%d').0" >> tag.txt
+      run: |
+        tag=$(date +'%Y%m%d')
+        patch=0
+        while [[ $(git tag -l | grep "prod$tag.$patch") ]]; do
+          patch=$((patch+1))
+        done
+        echo "prod$tag.$patch" >> tag.txt
       shell: bash
-
+      
     - name: Read release tag
       id: read_tag
       run: echo "::set-output name=tag::$(cat tag.txt)"
